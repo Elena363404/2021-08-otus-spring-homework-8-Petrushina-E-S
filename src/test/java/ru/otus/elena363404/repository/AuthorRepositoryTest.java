@@ -5,7 +5,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.repository.CrudRepository;
 import ru.otus.elena363404.domain.Author;
 
@@ -13,7 +12,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataMongoTest
-@ComponentScan({"ru.otus.elena363404.repository"})
 class AuthorRepositoryTest {
 
   private static final String EXISTING_AUTHOR_ID = "3";

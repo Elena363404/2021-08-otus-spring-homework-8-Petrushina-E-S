@@ -5,7 +5,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.repository.CrudRepository;
 import ru.otus.elena363404.domain.Book;
 import ru.otus.elena363404.domain.Comment;
@@ -17,7 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataMongoTest
-@ComponentScan({"ru.otus.elena363404.repository"})
 class CommentRepositoryTest {
 
   private static final String EXISTING_COMMENT_ID = "2";
