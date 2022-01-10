@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.shell.Shell;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
+import ru.otus.elena363404.changelogTest.MongoIdForTest;
 import ru.otus.elena363404.repository.AuthorRepository;
 import ru.otus.elena363404.repository.BookRepository;
 import ru.otus.elena363404.repository.GenreRepository;
@@ -43,7 +44,7 @@ class BookServiceByInputTest {
   @DisplayName("Check notification on create book by input")
   void createBook() {
     when(ioService.readString()).thenReturn("Oblomov");
-    when(ioService.getInputId()).thenReturn("2").thenReturn("4");
+    when(ioService.getInputId()).thenReturn(MongoIdForTest.idAuthor2).thenReturn(MongoIdForTest.idGenre4);
     bookService.createBook();
     verify(ioService, times(1)).out("Input name for the book: \n");
     verify(ioService, times(1)).out("Input id Author for the book from List: \n" + authorRepository.findAll());
@@ -54,7 +55,7 @@ class BookServiceByInputTest {
   @DisplayName("Check notification on update book by input")
   void updateBook() {
     when(ioService.readString()).thenReturn("Oblomov");
-    when(ioService.getInputId()).thenReturn("1").thenReturn("2").thenReturn("4");
+    when(ioService.getInputId()).thenReturn(MongoIdForTest.idBook1).thenReturn(MongoIdForTest.idAuthor2).thenReturn(MongoIdForTest.idGenre4);
     bookService.updateBook();
     verify(ioService, times(1)).out("Input id of the book for update: \n");
     verify(ioService, times(1)).out("Input a new name for the book: \n");

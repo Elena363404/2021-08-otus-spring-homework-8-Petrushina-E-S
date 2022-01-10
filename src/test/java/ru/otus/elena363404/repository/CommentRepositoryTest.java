@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.repository.CrudRepository;
+import ru.otus.elena363404.changelogTest.MongoIdForTest;
 import ru.otus.elena363404.domain.Book;
 import ru.otus.elena363404.domain.Comment;
 
@@ -18,10 +19,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataMongoTest
 class CommentRepositoryTest {
 
-  private static final String EXISTING_COMMENT_ID = "2";
-  private static final String EXISTING_BOOK_ID = "1";
-  private static final String COMMENT_ID_FOR_DELETE = "3";
-  private static final String COMMENT_ID_FOR_UPDATE = "3";
+  private static final String EXISTING_COMMENT_ID = MongoIdForTest.idComment2;
+  private static final String EXISTING_BOOK_ID = MongoIdForTest.idBook1;
+  private static final String COMMENT_ID_FOR_DELETE = MongoIdForTest.idComment3;
+  private static final String COMMENT_ID_FOR_UPDATE = MongoIdForTest.idComment3;
   private static final int EXPECTED_NUMBER_OF_COMMENTS = 4;
 
   @Autowired
@@ -37,7 +38,7 @@ class CommentRepositoryTest {
   @Test
   void shouldInsertComment() {
     Book book = crb.findById("2").stream().findFirst().orElse(null);
-    Comment expectedComment = new Comment("4", "Norm", book);
+    Comment expectedComment = new Comment(MongoIdForTest.idComment4, "Norm", book);
     commentRepository.save(expectedComment);
     Comment actualComment = cr.findById(expectedComment.getId()).stream().findFirst().orElse(null);
     assertThat(actualComment).isEqualTo(expectedComment);
@@ -93,8 +94,8 @@ class CommentRepositoryTest {
   private List<Comment> getCommentListByBookId(String bookId) {
     Book book = crb.findById(bookId).stream().findFirst().orElse(null);
     List<Comment> commentList = new ArrayList<>();
-    commentList.add(new Comment( "1", "Good book!", book));
-    commentList.add(new Comment( "2", "Bad book!", book));
+    commentList.add(new Comment( MongoIdForTest.idComment1, "Good book!", book));
+    commentList.add(new Comment( MongoIdForTest.idComment2, "Bad book!", book));
 
     return commentList;
   }

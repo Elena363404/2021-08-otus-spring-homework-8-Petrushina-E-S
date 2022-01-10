@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import ru.otus.elena363404.domain.Genre;
+import ru.otus.elena363404.domain.Book;
 
 @RequiredArgsConstructor
 public class GenreRepositoryCustomImpl implements GenreRepositoryCustom {
@@ -15,10 +15,10 @@ public class GenreRepositoryCustomImpl implements GenreRepositoryCustom {
   private final MongoTemplate mongoTemplate;
 
   @Override
-  public void removeBookListByGenreId(String id) {
-    val query = Query.query(Criteria.where("$id").is(new ObjectId(id)));
-    val update = new Update().pull("book", query);
-    mongoTemplate.updateMulti(new Query(), update, Genre.class);
+  public void removeDeletedGenreFromBooks(String id) {
+    val query = Query.query(Criteria.where("genre.$id").is(new ObjectId(id)));
+    val update = new Update().unset("genre");
+    mongoTemplate.updateMulti(query, update, Book.class);
   }
 
 }

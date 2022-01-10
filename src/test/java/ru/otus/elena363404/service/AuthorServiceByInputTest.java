@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.shell.Shell;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
+import ru.otus.elena363404.changelogTest.MongoIdForTest;
 
 import static org.mockito.Mockito.*;
 
@@ -16,7 +17,7 @@ import static org.mockito.Mockito.*;
   InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
   ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"
 })
-class AuthorServiceByInputTest {
+class AuthorServiceByInputTest  {
 
   @MockBean
   private IOService ioService;
@@ -39,7 +40,7 @@ class AuthorServiceByInputTest {
   @DisplayName("Check notification on update author by input")
   void updateAuthorTest() {
     when(ioService.readString()).thenReturn("Mikhail Lermontov");
-    when(ioService.getInputId()).thenReturn("1");
+    when(ioService.getInputId()).thenReturn(MongoIdForTest.idAuthor1);
     authorService.updateAuthor();
     verify(ioService, times(1)).out("Input id of the author for update: \n");
     verify(ioService, times(1)).out("Input a new name for the author: \n");
@@ -48,7 +49,7 @@ class AuthorServiceByInputTest {
   @Test
   @DisplayName("Check notification on delete author")
   void deleteAuthorTest() {
-    when(ioService.getInputId()).thenReturn("5");
+    when(ioService.getInputId()).thenReturn(MongoIdForTest.idAuthor5);
     authorService.deleteAuthor();
     verify(ioService, times(1)).out("Input id of the author for delete: \n");
   }

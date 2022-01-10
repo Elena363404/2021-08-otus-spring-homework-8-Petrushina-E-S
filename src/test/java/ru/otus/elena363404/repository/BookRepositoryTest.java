@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.repository.CrudRepository;
+import ru.otus.elena363404.changelogTest.MongoIdForTest;
 import ru.otus.elena363404.domain.Author;
 import ru.otus.elena363404.domain.Book;
 import ru.otus.elena363404.domain.Genre;
@@ -16,9 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @DataMongoTest
 class BookRepositoryTest {
 
-  private static final String EXISTING_BOOK_ID = "3";
+  private static final String EXISTING_BOOK_ID = MongoIdForTest.idBook3;
   private static final int EXPECTED_NUMBER_OF_BOOKS = 4;
-  private static final String BOOK_ID_FOR_DELETE = "2";
+  private static final String BOOK_ID_FOR_DELETE = MongoIdForTest.idBook2;
 
   @Autowired
   private BookRepository bookRepository;
@@ -29,7 +30,7 @@ class BookRepositoryTest {
   @DisplayName("Add book in the DB")
   @Test
   void shouldInsertBook() {
-    Book expectedBook = new Book( "5", "BookForTest", new Author("2", "Alexander Pushkin"), new Genre("3", "Novel"));
+    Book expectedBook = new Book( MongoIdForTest.idBook5, "BookForTest", new Author(MongoIdForTest.idAuthor2, "Alexander Pushkin"), new Genre(MongoIdForTest.idGenre3, "Novel"));
     Book newBook = bookRepository.save(expectedBook);
     val actualBook = cr.findById(newBook.getId()).stream().findFirst().orElse(null);
     assertThat(actualBook).isEqualTo(expectedBook);

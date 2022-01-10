@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.shell.Shell;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
+import ru.otus.elena363404.changelogTest.MongoIdForTest;
 import ru.otus.elena363404.domain.Genre;
 
 import static org.mockito.Mockito.*;
@@ -42,7 +43,7 @@ class GenreServiceByInputTest {
   void updateGenre() {
     Genre expectedGenre = new Genre( "History");
     when(ioService.readString()).thenReturn("History");
-    when(ioService.getInputId()).thenReturn("1");
+    when(ioService.getInputId()).thenReturn(MongoIdForTest.idGenre1);
     genreService.updateGenre();
     verify(ioService, times(1)).out("Input id of the genre for update: \n");
     verify(ioService, times(1)).out("Input a new name for the genre: \n");
@@ -51,7 +52,7 @@ class GenreServiceByInputTest {
   @Test
   @DisplayName("Check notification on delete genre")
   void deleteGenre() {
-    when(ioService.getInputId()).thenReturn("5");
+    when(ioService.getInputId()).thenReturn(MongoIdForTest.idGenre5);
     genreService.deleteGenre();
     verify(ioService, times(1)).out("Input id of the genre for delete: \n");
   }

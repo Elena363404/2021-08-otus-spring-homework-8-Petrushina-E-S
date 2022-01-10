@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import ru.otus.elena363404.domain.Book;
+import ru.otus.elena363404.domain.Comment;
 
 @RequiredArgsConstructor
 public class BookRepositoryCustomImpl implements BookRepositoryCustom {
@@ -15,9 +16,9 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
   private final MongoTemplate mongoTemplate;
 
   @Override
-  public void removeCommentListByBookId(String id) {
-    val query = Query.query(Criteria.where("$id").is(new ObjectId(id)));
-    val update = new Update().pull("comment", query);
-    mongoTemplate.updateMulti(new Query(), update, Book.class);
+  public void removeDeletedBookFromComments(String id) {
+    val query = Query.query(Criteria.where("book.$id").is(new ObjectId(id)));
+    val update = new Update().unset("book");
+    mongoTemplate.updateMulti(query, update, Comment.class);
   }
 }

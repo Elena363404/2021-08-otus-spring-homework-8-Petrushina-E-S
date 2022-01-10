@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.repository.CrudRepository;
+import ru.otus.elena363404.changelogTest.MongoIdForTest;
 import ru.otus.elena363404.domain.Genre;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @DataMongoTest
 class GenreRepositoryTest {
 
-  private static final String EXISTING_GENRE_ID = "3";
-  private static final String GENRE_ID_FOR_DELETE = "5";
+  private static final String EXISTING_GENRE_ID = MongoIdForTest.idGenre3;
+  private static final String GENRE_ID_FOR_DELETE = MongoIdForTest.idGenre5;
   private static final int EXPECTES_NUMBER_OF_GENRES = 5;
 
   @Autowired

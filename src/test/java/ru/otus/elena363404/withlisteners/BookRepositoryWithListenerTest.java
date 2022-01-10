@@ -1,14 +1,15 @@
 package ru.otus.elena363404.withlisteners;
 
 import lombok.val;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.data.mongodb.core.MongoOperations;
+import ru.otus.elena363404.domain.Comment;
 import ru.otus.elena363404.repository.BookRepository;
-import ru.otus.elena363404.repository.CommentRepository;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataMongoTest
 @EnableConfigurationProperties
@@ -16,16 +17,16 @@ import ru.otus.elena363404.repository.CommentRepository;
 public class BookRepositoryWithListenerTest {
 
   @Autowired
-  private CommentRepository commentRepository;
+  private BookRepository bookRepository;
 
   @Autowired
-  private BookRepository bookRepository;
+  private MongoOperations operations;
 
   @DisplayName("When deleting Book should remove it from the Comment")
   @Test
   void shouldRemoveBookFromCommentWhenRemovingBook() {
 
-    val comments = commentRepository.findAll();
+    val comments = operations.findAll(Comment.class);
     val comment = comments.get(0);
     val book = comment.getBook();
 
@@ -33,10 +34,8 @@ public class BookRepositoryWithListenerTest {
     bookRepository.delete(book);
 
     // load a comment and checking its book
-    val actualCommentOptional = commentRepository.findById(comment.getId());
+    val actualCommentOptional = operations.findById(comment.getId(), Comment.class);
 
-    Assertions.assertThat(actualCommentOptional)
-      .isNotEmpty().get()
-      .matches(s -> s.getBook() == null);
+    assertThat(actualCommentOptional != null && actualCommentOptional.getBook() == null);
   }
 }

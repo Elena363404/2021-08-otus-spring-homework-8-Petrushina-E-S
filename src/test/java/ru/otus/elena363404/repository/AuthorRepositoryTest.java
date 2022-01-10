@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.repository.CrudRepository;
+import ru.otus.elena363404.changelogTest.MongoIdForTest;
 import ru.otus.elena363404.domain.Author;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,9 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @DataMongoTest
 class AuthorRepositoryTest {
 
-  private static final String EXISTING_AUTHOR_ID = "3";
+  private static final String EXISTING_AUTHOR_ID = MongoIdForTest.idAuthor3;
   private static final int EXPECTES_NUMBER_OF_AUTHORS = 4;
-  private static final String AUTHOR_ID_FOR_DELETE = "5";
+  private static final String AUTHOR_ID_FOR_DELETE = MongoIdForTest.idAuthor5;
 
   @Autowired
   private AuthorRepository authorRepository;

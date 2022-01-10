@@ -3,7 +3,11 @@ spring:
     mongodb:
       port: 0
       database: test
+     # host: localhost
+     # port: 27017
+     # database: awesomeMongo
 mongock:
+ # runner-type: "ApplicationRunner"
   runner-type: "InitializingBean"
   change-logs-scan-package:
     - ru.otus.elena363404.changelog
