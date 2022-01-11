@@ -1,41 +1,48 @@
 package ru.otus.elena363404.withlisteners;
 
-import lombok.val;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
-import org.springframework.data.mongodb.core.MongoOperations;
-import ru.otus.elena363404.domain.Comment;
+import org.springframework.context.annotation.ComponentScan;
+import ru.otus.elena363404.domain.Book;
 import ru.otus.elena363404.repository.BookRepository;
+import ru.otus.elena363404.repository.CommentRepository;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataMongoTest
 @EnableConfigurationProperties
+@ComponentScan("ru.otus.elena363404.events")
 @DisplayName("BookRepository with listener in context")
 public class BookRepositoryWithListenerTest {
+
+  private static final int cntCommentByBookBeforeDelete = 2;
+  private static final int cntCommentByBookAfterDelete = 0;
 
   @Autowired
   private BookRepository bookRepository;
 
   @Autowired
-  private MongoOperations operations;
+  private CommentRepository commentRepository;
 
   @DisplayName("When deleting Book should remove it from the Comment")
   @Test
   void shouldRemoveBookFromCommentWhenRemovingBook() {
 
-    val comments = operations.findAll(Comment.class);
-    val comment = comments.get(0);
-    val book = comment.getBook();
+    Book book = bookRepository.findAll().get(0);
+    int cntCommentByBook = (commentRepository.findByBook(book)).size();
+
+    assertNotNull(book);
+    assertThat(cntCommentByBook).isEqualTo(cntCommentByBookBeforeDelete);
 
     // delete book
     bookRepository.delete(book);
 
-    // load a comment and checking its book
-    val actualCommentOptional = operations.findById(comment.getId(), Comment.class);
+    cntCommentByBook = (commentRepository.findByBook(book)).size();
 
-    assertThat(actualCommentOptional != null && actualCommentOptional.getBook() == null);
+    assertThat(cntCommentByBook).isEqualTo(cntCommentByBookAfterDelete);
   }
 }
