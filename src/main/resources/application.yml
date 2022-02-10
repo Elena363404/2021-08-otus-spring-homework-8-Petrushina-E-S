@@ -1,0 +1,21 @@
+spring:
+  data:
+    mongodb:
+      port: 0
+      database: test
+     # host: localhost
+     # port: 27017
+     # database: awesomeMongo
+mongock:
+ # runner-type: "ApplicationRunner"
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.elena363404.changelog
+  mongo-db:
+    write-concern:
+      journal: false
+    read-concern: local
+logging:
+  level:
+    root:
+      ERROR
